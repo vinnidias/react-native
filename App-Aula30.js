@@ -13,7 +13,7 @@ function Render(){
         height: 100, 
         width: 300,
         borderColor: 'black', 
-        borderWidth: 2, 
+        borderWidth: 1, 
         margin: 5}}
         placeholder="Digite aqui!"
         multiline={true}
@@ -31,29 +31,21 @@ function Render(){
         setTextoDigitado('')
         }
       }}
-      title="Postar" color="#1e90ff" />
+      title="Postar" color="#7b68ee" />
     
       <Text style={styles.titulo}>Mural: </Text>
-      <Text style={styles.fonteBase}>{textoPostado}</Text>
+      <Text style={{fontFamily: 'Roboto', fontSize: 20, margin: 10}}>{textoPostado}</Text>
     </View>
 
-  )
-}
-
-
-
-export default function App() {
-  return(
-    <Render/>
   )
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'white',
+    backgroundColor: '#dcdcdc',
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'center'
   },
   fonteBase: {
     fontFamily: 'Roboto',
@@ -72,3 +64,11 @@ negrito: {
 
 }
 });
+
+export default function App() {
+  return(
+    <Render/>
+  )
+}
+
+
