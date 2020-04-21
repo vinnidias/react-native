@@ -52,7 +52,7 @@ setaIntervalo(){
     return(
     <View style ={styles.container}>
       <Text style={styles.titulo}>
-        Jogo da digitação
+        Jogo da digitação!
       </Text>
       <Button
         onPress={()=> {
