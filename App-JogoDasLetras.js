@@ -42,10 +42,7 @@ class Jogo extends React.Component {
   },1000);
   this.setState({jogar: true})
  }
-  componentDidMount(){
-    this.setState({tempo: 10, jogar: false})
-  };
-
+ 
   componentDidUpdate(){
     if(this.state.tempo === 0 ){
       this.limpaIntervalo()
