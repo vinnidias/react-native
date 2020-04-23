@@ -36,7 +36,8 @@ class Jogo extends React.Component {
       texto: '',
     }
   };
- iniciar(){
+ 
+  iniciar(){
   this.idContador=setInterval(() => {
     this.setState({tempo: this.state.tempo - 1, })
   },1000);
@@ -55,7 +56,6 @@ class Jogo extends React.Component {
     Alert.alert(`A sua pontuação é ${this.state.texto.length}`)
   }
 
-  
   render(){
     return(
     <View style ={styles.container}>
