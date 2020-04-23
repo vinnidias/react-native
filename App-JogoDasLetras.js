@@ -28,38 +28,45 @@ negrito: {
 }
 
 class Jogo extends React.Component {
-  constructor(){
-    super();
+  constructor(props){
+    super(props);
     this.state={
       jogar: false,
-      tempo: 0,
-      value: '',
+      tempo: 10,
+      texto: '',
     }
   };
-
-componentDidMount(){
-  this.id = setInterval(()=>{
-    if(this.state.jogar){
-      this.setaIntervalo()
+ iniciar(){
+  this.idContador=setInterval(() => {
+    this.setState({tempo: this.state.tempo - 1, })
+  },1000);
+  this.setState({jogar: true})
+ }
+ 
+  componentDidUpdate(){
+    if(this.state.tempo === 0 ){
+      this.limpaIntervalo()
+      this.setState({jogar: false, tempo: 10, texto: ''})
     }
-  
-  }, 1000)
   }
-setaIntervalo(){
-  this.setState({tempo: this.state.tempo + 1})
-}
+ 
+  limpaIntervalo(){
+    clearInterval(this.idContador);
+    Alert.alert(`A sua pontuação é ${this.state.texto.length}`)
+  }
+
+  
   render(){
     return(
     <View style ={styles.container}>
       <Text style={styles.titulo}>
-        Jogo da digitação
+        Jogo da digitação!
       </Text>
+      <Text style={styles.fonteBase}>Tempo: {this.state.tempo}</Text>
       <Button
-        onPress={()=> {
-          this.setState({jogar: true})
-          Alert.alert('digite o máximo de caracteres que vc conseguir')
-          setTimeout(()=>clearInterval(this.id),1000*10)
-        }}
+        onPress={() => {
+          this.iniciar()
+      }}
         title = 'Começar'
         color = '#7b68ee'   
       />
@@ -71,7 +78,9 @@ setaIntervalo(){
         margin: 5}}
         placeholder="Digite aqui!"
         multiline={true}
-        
+        editable={this.state.jogar}
+        onChangeText={(text) => this.setState({texto: text})}
+        value={this.state.texto}
         />
     </View>
     )
@@ -79,3 +88,4 @@ setaIntervalo(){
 }
 
 export default Jogo;
+  
