@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { SafeAreaView, View, Text, TextInput, Button, Alert } from 'react-native';
+import { SafeAreaView, View, Text, TextInput, Button, Alert, Image } from 'react-native';
 import 'react-native-gesture-handler';
 import {NavigationContainer} from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -9,7 +9,7 @@ const Dados = {
   senha: '123',
   perfil: {
     nome: 'Vinicius Dias',
-    dn: '27/01/1993',
+    idade: '27',
     cargo: 'Dev mobile jr'
 
   }
@@ -28,7 +28,6 @@ function Home ({navigation}) {
   }
 
   return (
-    <SafeAreaView>
       <View style = {{flex: 1, justifyContent: 'center', alignItems: "center"}}>
         <Text>Digite suas credenciais</Text>
         <TextInput style = {{
@@ -64,19 +63,26 @@ function Home ({navigation}) {
           color = '#7b68ee'   
       />
       </View>
-    </SafeAreaView>
   )
 }
 
 const Perfil = ({route, navigation}) => {
-  const {nome, dn, cargo} = route.params
+  const {nome, idade, cargo} = route.params
   return(
-    <View style = {{flex: 1, justifyContent: 'center', alignItems: "center"}}>
+    <View style = {{flex: 1, justifyContent: 'flex-start', alignItems: "center"}}>
+      <Image style={{
+              height: 100,
+              width: 100,
+              borderRadius: 64,
+              justifyContent: "center",
+              alignItems: 'center',
+              marginVertical: 100
+          }} source={require('./src/imgs/eumesmo.png') }/>
       <Text>
         Nome: {nome}
       </Text>
       <Text>
-        Data de Nascimento: {dn}
+        Idade: {idade}
       </Text>
       <Text>
         Cargo: {cargo}
@@ -91,8 +97,16 @@ const App = ()=>{
   return (
   <NavigationContainer>
     <Stack.Navigator initialRouteName='Home'>
-      <Stack.Screen name='Home' component={Home}/>
-      <Stack.Screen name='Perfil' component={Perfil} />
+      <Stack.Screen name='Home' component={Home} options={{
+        title: 'Login',
+        headerStyle: {backgroundColor:'#7b68ee'},
+        headerTintColor: 'white'
+      }}/>
+      <Stack.Screen name='Perfil' component={Perfil} options={{
+        title: 'Perfil',
+        headerStyle: {backgroundColor:'#7b68ee'},
+        headerTintColor: 'white'
+      }} />
     </Stack.Navigator>
   </NavigationContainer>
   )
@@ -101,3 +115,5 @@ const App = ()=>{
 
 
 export default App;
+
+
