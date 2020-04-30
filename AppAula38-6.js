@@ -10,6 +10,7 @@ const Caixa = ({cor})=>{
       backgroundColor: cor,
       borderWidth: 2,
       borderColor: 'white',
+      borderRadius: 20
     }}
   />
   )

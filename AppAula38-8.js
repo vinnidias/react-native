@@ -17,6 +17,7 @@ const App = ()=>{
         backgroundColor: 'red',
         borderWidth: 2,
         borderColor: 'white',
+        borderRadius: 20
         }}
       />
       <View style={{
@@ -26,6 +27,7 @@ const App = ()=>{
         backgroundColor: 'blue',
         borderWidth: 2,
         borderColor: 'white',
+        borderRadius: 20
         }}
       />
     </SafeAreaView>

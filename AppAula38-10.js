@@ -11,6 +11,7 @@ const App = ()=>{
           backgroundColor: 'red',
           borderWidth: 2,
           borderColor: 'white',
+          borderRadius: 20
           }}
         />
         
@@ -20,6 +21,7 @@ const App = ()=>{
           backgroundColor: 'blue',
           borderWidth: 2,
           borderColor: 'white',
+          borderRadius: 20
           }}
         />
       </View>  
@@ -30,6 +32,7 @@ const App = ()=>{
           backgroundColor: 'yellow',
           borderWidth: 2,
           borderColor: 'white',
+          borderRadius: 20
           }}
         />
         <View style={{
@@ -38,6 +41,7 @@ const App = ()=>{
           backgroundColor: 'green',
           borderWidth: 2,
           borderColor: 'white',
+          borderRadius: 20
           }}
         />
       </View>  
