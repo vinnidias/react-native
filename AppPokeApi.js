@@ -18,7 +18,7 @@ class Pokemons extends React.Component {
   }
   
   pegaPokemon = () => {
-    axios.get(`https://pokeapi.co/api/v2/pokemon/${this.state.nome}/`)
+    axios.get(`https://pokeapi.co/api/v2/pokemon/${this.state.nome.toLowerCase()}/`)
       .then(res => {
         this.setState({
           pokemon: res.data.name, 
@@ -28,7 +28,9 @@ class Pokemons extends React.Component {
         })
         this.setState({nome: ''})
       })
-      .catch(err => Alert.alert('🤔 Opps... Something is going wrong, try again!'))
+      .catch(err => Alert.alert('🤔 Opps... Something is going wrong, try again!'),
+        this.setState({nome: ''})
+      )
   }
 
   render(){ 
