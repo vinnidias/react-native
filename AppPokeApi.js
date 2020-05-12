@@ -1,7 +1,6 @@
 import React from 'react'
 import axios from 'axios'
-import { SafeAreaView, View, Text, TextInput, Button, Alert, Image, TouchableHighlight } from 'react-native'
-import { ceil } from 'react-native-reanimated'
+import {View, Text, TextInput, Button, Alert, Image,} from 'react-native'
 
 class Pokemons extends React.Component {
   constructor(){
@@ -31,7 +30,7 @@ class Pokemons extends React.Component {
       .catch(err => Alert.alert('🤔 Opps... Something is going wrong, try again!'),
         this.setState({nome: ''})
       )
-  }
+    }
 
   render(){ 
     return(
@@ -85,12 +84,7 @@ class Pokemons extends React.Component {
           </View>
       </View>
     )
-
   }
 }
 
-
-
 export default Pokemons;
-
-
