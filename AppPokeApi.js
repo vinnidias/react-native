@@ -1,16 +1,14 @@
 import React from 'react'
 import axios from 'axios'
-import { View, Text, TextInput, Button, Alert, Image, TouchableOpacity } from 'react-native'
+import {View, Text, TextInput, Button, Alert, Image, TouchableOpacity, Linking, ScrollView} from 'react-native'
 
 class Pokemons extends React.Component {
   constructor(){
     super()
     this.state={
-      data: {},
       pokemon: '',
       tipo: '',
       habilidade: '',
-      lista: [],
       img: '',
       nome: '',
       efeito: '',
@@ -21,6 +19,10 @@ class Pokemons extends React.Component {
     }
   }
   
+  abrirLinkPokeApi = () => {
+   const open = Linking.openURL('https://pokeapi.co/docs/v2.html#pokemon')
+  }
+
   pegaPokemon = () => {
     axios.get(`https://pokeapi.co/api/v2/pokemon/${this.state.nome.toLowerCase()}/`)
       .then(res => {
@@ -36,7 +38,7 @@ class Pokemons extends React.Component {
         })
         this.setState({nome: ''})
       })
-      .catch(err => Alert.alert('🤔 Opps... Something is going wrong, try again!'),
+      .catch(err => Alert.alert('🤦🏾‍♂️Opps... Something is going wrong, try again!'),
         this.setState({nome: ''})
       )
   }
@@ -44,7 +46,7 @@ class Pokemons extends React.Component {
   pokemonsDoMesmoTipo = () => {
 
   }
-
+  
   efeitoDeHabilidade = () => {
     this.state.habilidade.map(hab =>{
       axios.get(`https://pokeapi.co/api/v2/ability/${hab}/`)
@@ -56,7 +58,7 @@ class Pokemons extends React.Component {
 
   render(){ 
     return(
-      <View style={{flex: 1, marginVertical: 50}}>
+      <ScrollView style={{flex: 1, marginVertical: 50}}>
         <View style={{
           flexDirection: 'row', 
           justifyContent: "flex-start", 
@@ -80,7 +82,11 @@ class Pokemons extends React.Component {
           <Button onPress={this.pegaPokemon} title = 'search' color = '#fa8072'/>
         </View>
         </View>
-        <Image source={require('./src/imgs/imgPokeApi.png')} style={{margin: 25, borderRadius: 10}}/>
+        <View>
+        <TouchableOpacity onPress={this.abrirLinkPokeApi}>
+          <Image source={require('./src/imgs/imgPokeApi.png')} style={{margin: 25, borderRadius: 10}}/>
+        </TouchableOpacity>
+        </View>
         <View style={{justifyContent: "space-around", flexDirection: 'row'}}>
           <View style={{
             width: 150, 
@@ -100,7 +106,7 @@ class Pokemons extends React.Component {
             borderRadius: 10, 
             marginVertical: 10,
             }}>
-              <Text style={{margin: 8, marginVertical: 8, flexDirection: 'column'}}>
+              <Text style={{margin: 8, marginVertical: 8, borderStartColor: 'black'}}>
                 Name: {this.state.pokemon}
               </Text>
               <Text style={{margin: 8, marginVertical: 8, flexDirection: 'column'}}>
@@ -141,10 +147,9 @@ class Pokemons extends React.Component {
                 Weight: {this.state.peso / 10}kg
               </Text>
           </View>
-          </View>
-      </View>
+        </View>
+      </ScrollView>
     )
-
   }
 }
 
