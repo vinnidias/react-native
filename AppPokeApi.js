@@ -74,7 +74,7 @@ class Pokemons extends React.Component {
             borderColor: '#fa8072',
             margin: 5
           }}
-          placeholder = 'enter the name of the Pokémon'
+          placeholder = 'name or id of the Pokémon'
           onChangeText = {(text)=> this.setState({nome: text})}
           value = {this.state.nome}
           />
