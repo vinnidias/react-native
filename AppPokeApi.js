@@ -9,18 +9,31 @@ class Pokemons extends React.Component {
       pokemon: '',
       tipo: '',
       habilidade: '',
-      img: '',
+      img1: '',
+      img2: '',
+      img3: '',
+      img4: '',
       nome: '',
       efeito: '',
       id: '',
       exp_base: '',
       altura: 0,
-      peso: 0
+      peso: 0,
+      hp: 0,
+      ataque: 0, 
+      defesa: 0,
+      stats: [],
+      hp: 0,
+      gameIndicies: '',
+      itensCarregados: '',
+      golpes: [],
+      pokemonMaiusculo: ''
+
     }
   }
   
   abrirLinkPokeApi = () => {
-   const open = Linking.openURL('https://pokeapi.co/docs/v2.html#pokemon')
+    Linking.openURL('https://pokeapi.co/docs/v2.html#pokemon')
   }
 
   pegaPokemon = () => {
@@ -28,13 +41,20 @@ class Pokemons extends React.Component {
       .then(res => {
         this.setState({
           pokemon: res.data.name, 
-          img: res.data.sprites.front_default, 
+          img1: res.data.sprites.front_default, 
+          img2: res.data.sprites.back_default,
+          img3: res.data.sprites.front_shiny,
+          img4: res.data.sprites.back_shiny,
           tipo: res.data.types.map(tipo => tipo.type.name).join(', '),
           habilidade: res.data.abilities.map(ability => ability.ability.name).join(', '),
           id: res.data.id,
           exp_base: res.data.base_experience,
           altura: res.data.height,
-          peso: res.data.weight
+          peso: res.data.weight,
+          stats: res.data.stats.map(stat => stat.base_stat),
+          gameIndicies: res.data.game_indices.map(game => game.version.name).join(', '),
+          itensCarregados: res.data.held_items.map(item => item.item.name).join(', '),
+          golpes: res.data.moves.map(golpe => golpe.move.name)
         })
         this.setState({nome: ''})
       })
@@ -42,9 +62,11 @@ class Pokemons extends React.Component {
         this.setState({nome: ''})
       )
   }
-
-  pokemonsDoMesmoTipo = () => {
-
+  
+  pegaHp = ()=> {
+    const objetoHp = this.state.stats.find(valor => valor == 5)
+    return this.setState({hp: objetoHp.base_stat })
+  
   }
   
   efeitoDeHabilidade = () => {
@@ -72,7 +94,7 @@ class Pokemons extends React.Component {
             borderWidth: 1,
             borderRadius: 10,
             borderColor: '#fa8072',
-            margin: 5
+            margin: 5,
           }}
           placeholder = 'name or id of the Pokémon'
           onChangeText = {(text)=> this.setState({nome: text})}
@@ -84,7 +106,7 @@ class Pokemons extends React.Component {
         </View>
         <View>
         <TouchableOpacity onPress={this.abrirLinkPokeApi}>
-          <Image source={require('./src/imgs/imgPokeApi.png')} style={{margin: 25, borderRadius: 10}}/>
+          <Image source={require('./src/imgs/imgPokeApi.png')} style={{margin: 25, borderRadius: 10,}}/>
         </TouchableOpacity>
         </View>
         <View style={{justifyContent: "space-around", flexDirection: 'row'}}>
@@ -94,10 +116,11 @@ class Pokemons extends React.Component {
             backgroundColor: '#9370db', 
             borderRadius: 10, 
             marginVertical: 10,
-            justifyContent: "center",
-            alignItems: "center"
+            justifyContent: 'flex-start',
+            alignSelf: 'flex-end'
             }}>
-            <Image source={{uri: this.state.img}} style={{width: 150, height: 150,}} />
+            <Image source={{uri: this.state.img1}} style={{width: 150, height: 150,}} />
+           <Image source={require('./src/imgs/pokebola2.gif')} style={{width: 57, height: 50,marginTop: -30, marginLeft: 100}} />
           </View>
           <View style = {{
             width: 150, 
@@ -106,8 +129,11 @@ class Pokemons extends React.Component {
             borderRadius: 10, 
             marginVertical: 10,
             }}>
+               <Text style={{margin: 8, marginVertical: 8, flexDirection: 'column'}}>
+                ID: {this.state.id}
+              </Text>
               <Text style={{margin: 8, marginVertical: 8, borderStartColor: 'black'}}>
-                Name: {this.state.pokemon}
+                Name: {this.state.pokemon.charAt(0).toUpperCase()+this.state.pokemon.slice(1)}
               </Text>
               <Text style={{margin: 8, marginVertical: 8, flexDirection: 'column'}}>
                 Type(s): {this.state.tipo}
@@ -116,8 +142,8 @@ class Pokemons extends React.Component {
                 Abilities: {this.state.habilidade}
               </Text>
           </View>
-          </View>
-          <View style={{justifyContent: "space-around", flexDirection: 'row'}}>
+        </View>
+        <View style={{justifyContent: "space-around", flexDirection: 'row'}}>
           <View style={{
             width: 150, 
             height: 170, 
@@ -125,7 +151,8 @@ class Pokemons extends React.Component {
             borderRadius: 10, 
             marginVertical: 10,
             }}>
-           <Image source={require('./src/imgs/pokebola2.gif')} style={{width: 107, height: 100, marginTop: 30, margin: 10}} />
+           <Image source={{uri: this.state.img2}} style={{width: 150, height: 150,}} />
+           <Image source={require('./src/imgs/pokebola2.gif')} style={{width: 57, height: 50, marginTop: -30, marginLeft: 100}} />
           </View>
           <View style = {{
             width: 150, 
@@ -134,9 +161,7 @@ class Pokemons extends React.Component {
             borderRadius: 10, 
             marginVertical: 10,
             }}>
-              <Text style={{margin: 8, marginVertical: 8, flexDirection: 'column'}}>
-                ID: {this.state.id}
-              </Text>
+             
               <Text style={{margin: 8, marginVertical: 8, flexDirection: 'column'}}>
                 Base exp: {this.state.exp_base}
               </Text>
@@ -145,6 +170,108 @@ class Pokemons extends React.Component {
               </Text>
               <Text style={{margin: 8, marginVertical: 8, flexDirection: 'column'}}>
                 Weight: {this.state.peso / 10}kg
+              </Text>
+              <Text style={{margin: 8, marginVertical: 8, flexDirection: 'column'}}>
+                Held items: {this.state.itensCarregados}
+              </Text>
+          </View>
+        </View>
+        <View style={{justifyContent: "space-around", flexDirection: 'row'}}>
+          <View style={{
+            width: 150, 
+            height: 210, 
+            backgroundColor: '#9370db', 
+            borderRadius: 10, 
+            marginVertical: 10,
+            }}>
+           <Image source={{uri: this.state.img3}} style={{width: 150, height: 150,}} />
+           <Image source={require('./src/imgs/pokebola2.gif')} style={{width: 57, height: 50, marginTop: 10, marginLeft: 100}} />
+          </View>
+          <View style = {{
+            width: 150, 
+            height: 210, 
+            backgroundColor: 'gold', 
+            borderRadius: 10, 
+            marginVertical: 10,
+            }}>
+              <Text style={{margin: 8, marginVertical: 8, flexDirection: 'column'}}>
+                Hp: {this.state.stats[5]}
+              </Text>
+              <Text style={{margin: 8, marginVertical: 8, flexDirection: 'column'}}>
+                Attack: {this.state.stats[4]}
+              </Text>
+              <Text style={{margin: 8, marginVertical: 8, flexDirection: 'column'}}>
+                Defense: {this.state.stats[3]}
+              </Text>
+              <Text style={{margin: 8, marginVertical: 8, flexDirection: 'column'}}>
+                Speed: {this.state.stats[0]}
+              </Text>
+              <Text style={{margin: 8, marginVertical: 8, flexDirection: 'column'}}>
+                Special Attack: {this.state.stats[2]}
+              </Text>
+              <Text style={{margin: 8, marginVertical: 8, flexDirection: 'column'}}>
+                Special Defense: {this.state.stats[1]}
+              </Text>
+          </View>
+        </View>
+        <View style={{justifyContent: "space-around", flexDirection: 'row'}}>
+          <View style={{
+            width: 150, 
+            height: 210, 
+            backgroundColor: '#9370db', 
+            borderRadius: 10, 
+            marginVertical: 10,
+            }}>
+           <Image source={{uri: this.state.img4}} style={{width: 150, height: 150, alignSelf: "center"}} />
+           <Image source={require('./src/imgs/pokebola2.gif')} style={{width: 57, height: 50, marginTop: 10, marginLeft: 100,}} />
+          </View>
+          <View style = {{
+            width: 150, 
+            height: 210, 
+            backgroundColor: 'gold', 
+            borderRadius: 10, 
+            marginVertical: 10,
+            }}>
+              <Text style={{margin: 8, marginVertical: 8, flexDirection: 'column'}}>
+                Moves: 
+              </Text>
+              <Text style={{margin: 8, marginVertical: 8, flexDirection: 'column'}}>
+                {this.state.golpes[0]}
+              </Text>
+              <Text style={{margin: 8, marginVertical: 8, flexDirection: 'column'}}>
+                {this.state.golpes[1]}
+              </Text>
+              <Text style={{margin: 8, marginVertical: 8, flexDirection: 'column'}}>
+                {this.state.golpes[2]}
+              </Text>
+              <Text style={{margin: 8, marginVertical: 8, flexDirection: 'column'}}>
+                {this.state.golpes[3]}
+              </Text>
+              <Text style={{margin: 8, marginVertical: 8, flexDirection: 'column'}}>
+                {this.state.golpes[4]}
+              </Text>
+          </View>
+        </View>
+        <View style={{justifyContent: "space-around", flexDirection: 'row'}}>
+          <View style={{
+            width: 150, 
+            height: 200, 
+            backgroundColor: '#9370db', 
+            borderRadius: 10, 
+            marginVertical: 10,
+            }}>
+          <Image source={require('./src/imgs/pokeLogo.gif')} style={{width: 100, height: 60, marginTop: 5, marginLeft:25}} />
+           <Image source={require('./src/imgs/treinerCharizard.gif')} style={{width: 100, height: 100, marginTop: 10, marginLeft: 30}} />
+          </View>
+          <View style = {{
+            width: 150, 
+            height: 200, 
+            backgroundColor: 'gold', 
+            borderRadius: 10, 
+            marginVertical: 10,
+            }}>
+              <Text style={{margin: 8, marginVertical: 8, flexDirection: 'column'}}>
+                Game Indicies: {this.state.gameIndicies}
               </Text>
           </View>
         </View>
