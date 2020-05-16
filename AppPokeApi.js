@@ -73,7 +73,7 @@ class Pokemons extends React.Component {
       </TouchableOpacity>
       <View style={{justifyContent: "space-around", flexDirection: 'row'}}>
       <View>
-        <Image source={require('./src/imgs/gastly.gif')} style={{margin: 25, borderRadius: 10,}}/>
+        <Image source={require('./src/imgs/gastly.gif')} style={{marginBottom: 25,marginLeft: 25,}}/>
       </View>
     </View>
     </View>
