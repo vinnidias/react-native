@@ -173,10 +173,10 @@ class Pokemons extends React.Component {
             </View>
             <View style = {cards.cardPadrao2}>
                 <Text style={{margin: 8, marginVertical: 8, flexDirection: 'column'}}>
-                  ID: {this.state.id}
+                  Name: {this.state.pokemon.charAt(0).toUpperCase()+this.state.pokemon.slice(1)}
                 </Text>
                 <Text style={{margin: 8, marginVertical: 8, borderStartColor: 'black'}}>
-                  Name: {this.state.pokemon.charAt(0).toUpperCase()+this.state.pokemon.slice(1)}
+                  ID: {this.state.id}
                 </Text>
                 <Text style={{margin: 8, marginVertical: 8, flexDirection: 'column'}}>
                   Type(s): {this.state.tipo}
